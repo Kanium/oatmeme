@@ -1,5 +1,6 @@
-# Falafel
-Oatmemes heart and butter. this is the backend service that handles all of oatmemes logic
+![Logo](../falafel/public/logo192.png)
+# Butter
+OatMemes heart and butter. this is the backend service that handles all of OatMemes logic
 
 
 ### Version: 0.0.1

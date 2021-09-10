@@ -1,4 +1,5 @@
-# oatmeme
+![Logo](./falafel/public/logo192.png)
+## OatMeme
 an app with various delicious memes to feed your appetite
 
 

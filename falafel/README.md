@@ -1,5 +1,6 @@
-# Falafel
-Oatmemes heart and soul. this is the Webapp service
+![Logo](./public/logo192.png)
+## Falafel
+OatMemes heart and soul. this is the Webapp service
 
 
 ### Version: 0.0.1
