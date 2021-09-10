@@ -27,16 +27,21 @@ export default class MongoConnector {
         return stats.ok
     }
 
-    constructor() {
+    constructor(db?: string) {
         this._client = null
         this._db = null
-        this._promise = this._connect()
+
+        const uri = `mongodb${process.env.MONGO_PREFIX ?? ''}://${process.env.MONOG_USER}:${
+            process.env.MONOG_PASSWORD
+        }@${process.env.MONGO_HOST}/${process.env.MOGNO_DB}?retryWrites=true&w=majority`
+
+        this._promise = this._connect(uri, db)
         this._timeOut = setInterval(this.healthCheck, MongoConnector.heartbeatInterval)
     }
 
-    private async _connect() {
-        this._client = await MongoClient.connect('', {})
-        this._db = this._client.db()
+    private async _connect(uri: string, db?: string) {
+        this._client = await MongoClient.connect(uri)
+        this._db = this._client.db(db)
         this._promise = null
     }
 

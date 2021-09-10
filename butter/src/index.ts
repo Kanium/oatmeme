@@ -2,11 +2,11 @@ import * as dotenv from 'dotenv'
 import path from 'path'
 dotenv.config({ path: path.join(__dirname, `../${process.env.NODE_ENV ?? 'development'}.env`) })
 
-const evnDependencies: (string | undefined)[] = []
+const evnDependencies: (string | undefined)[] = ['MONGO_DATABASE', 'MONGO_USERNAME', 'MONGO_PASSWORD']
 
 for (const dependency of evnDependencies) {
     if (!dependency) {
-        console.error('Enviroment variables for SocketIO admin ui need to be set.')
+        console.error('Enviroment variables for MongoDB need to be set')
         process.exit(9) // exit code for required value not given
     }
 }
