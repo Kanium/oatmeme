@@ -3,4 +3,4 @@
 OatMemes heart and butter. this is the backend service that handles all of OatMemes logic
 
 
-### Version: 0.0.3-prod.0
+### Version: 0.0.4-dev.0
