@@ -1,6 +1,16 @@
 version: "3.5"
 
 services:
+    falafel:
+        container_name: falafel
+        build:
+            context: ./falafel
+            dockerfile: ./Dockerfile
+        ports:
+            - "80:80"
+        depends_on:
+            - "butter"
+        env_file: './butter/production.env'
     butter:
         container_name: butter
         build:
