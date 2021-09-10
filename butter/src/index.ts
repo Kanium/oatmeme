@@ -14,6 +14,7 @@ for (const dependency of evnDependencies) {
 import { createServer } from 'http'
 import cors from 'cors'
 import app from './app'
+import MongoConnector from './utils/MongoConnector'
 
 const port = process.env.PORT || 5069
 app.set('port', port)
@@ -36,8 +37,9 @@ const corsOptions: cors.CorsOptions = {
 
 app.use(cors(corsOptions))
 
-const server = createServer(app)
-
-server.listen(app.get('port'), () => {
-    console.log(`Server Listening on port ${port}`)
+MongoConnector.instance.awaitConnection().then(() => {
+    const server = createServer(app)
+    server.listen(app.get('port'), () => {
+        console.log(`Server Listening on port ${port}`)
+    })
 })
