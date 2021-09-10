@@ -2,6 +2,17 @@ import { Dictionary } from 'lodash'
 import { Document, ObjectId } from 'mongodb'
 import Validate from '../utils/Validate'
 
+export interface APIMeme {
+    id: string
+    name: string
+    data: string
+    updoots: number
+    downdoots: number
+    creatorId: string
+    createdAt: Date
+    updatedAt: Date
+}
+
 export interface MemeDocument extends Document {
     _id: ObjectId
     name: string
@@ -13,9 +24,34 @@ export interface MemeDocument extends Document {
     updatedAt: Date
 }
 
+export interface MemeQuery {
+    query: {
+        name?: string
+        updoots?: number
+        downdoots?: number
+        createdAt?: Date
+        createFrom?: Date
+    }
+    sort?: {
+        order: 'ASC' | 'DES'
+        field: ''
+    }
+}
+
 export class Meme implements MemeDocument {
-    public static fromJson(dict: Dictionary<string>) {
-        return new Meme(dict)
+    public static fromJson(dict: APIMeme) {
+        const doc: MemeDocument = {
+            _id: new ObjectId(dict.id),
+            name: dict.name,
+            data: dict.data,
+            updoots: dict.updoots,
+            downdoots: dict.downdoots,
+            creatorId: new ObjectId(dict.creatorId),
+            createdAt: dict.createdAt,
+            updatedAt: dict.updatedAt
+        }
+
+        return new Meme(doc)
     }
 
     public _id: ObjectId
@@ -38,9 +74,9 @@ export class Meme implements MemeDocument {
         this.updatedAt = meme.updatedAt ?? this.createdAt
     }
 
-    public toJson() {
+    public toJson(): APIMeme {
         return {
-            _id: this._id.toHexString(),
+            id: this._id.toHexString(),
             name: this.name,
             data: this.data,
             updoots: this.updoots,

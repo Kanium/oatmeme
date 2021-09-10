@@ -20,6 +20,7 @@ export class Memer implements MemerDocument {
     public _id: ObjectId
     public username: string
     public password: string
+    public displayName?: string
     public discordUserId?: string
     public profilePic?: string
     public createdAt: Date
@@ -29,6 +30,7 @@ export class Memer implements MemerDocument {
         this._id = Validate.ObjectId(meme._id, 'meme._id', true)
         this.username = Validate.String(meme.username, 'meme.username')
         this.password = Validate.String(meme.password, 'meme.password')
+        this.displayName = meme.displayName
         this.discordUserId = meme.discordUserId
         this.profilePic = meme.profilePic
         this.createdAt = meme.createdAt ?? new Date()
@@ -40,6 +42,7 @@ export class Memer implements MemerDocument {
             _id: this._id.toHexString(),
             username: this.username,
             password: this.password,
+            displayName: this.displayName,
             discordUserId: this.discordUserId,
             profilePic: this.profilePic,
             createdAt: this.createdAt,
