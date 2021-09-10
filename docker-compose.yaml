@@ -19,10 +19,3 @@ services:
         ports:
             - "8080:8080"
         env_file: './butter/production.env'
-#    mongo:
-#        image: 'mongo:latest'
-#        env_file: './mongo.env'
-#        volumes: 
-#            - oatdata:/data/db
-#        ports:
-#            - '27017-27019:27017-27019'
