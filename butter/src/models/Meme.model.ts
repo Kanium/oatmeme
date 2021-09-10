@@ -13,6 +13,20 @@ export interface MemeDocument extends Document {
     updatedAt: Date
 }
 
+export interface MemeQuery {
+    query: {
+        name?: string
+        updoots?: number
+        downdoots?: number
+        createdAt?: Date
+        createFrom?: Date
+    }
+    sort?: {
+        order: 'ASC' | 'DES'
+        field: ''
+    }
+}
+
 export class Meme implements MemeDocument {
     public static fromJson(dict: Dictionary<string>) {
         return new Meme(dict)
