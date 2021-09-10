@@ -1,11 +1,22 @@
-import { Dictionary } from 'lodash'
 import { Document, ObjectId } from 'mongodb'
 import Validate from '../utils/Validate'
+
+export interface APIMemer {
+    id: string
+    username: string
+    password: string
+    displayName?: string
+    discordUserId?: string
+    profilePic?: string
+    createdAt: Date
+    updatedAt: Date
+}
 
 export interface MemerDocument extends Document {
     _id: ObjectId
     username: string
     password: string
+    displayName?: string
     discordUserId?: string
     profilePic?: string
     createdAt: Date
@@ -13,8 +24,19 @@ export interface MemerDocument extends Document {
 }
 
 export class Memer implements MemerDocument {
-    public static fromJson(dict: Dictionary<string>) {
-        return new Memer(dict)
+    public static fromJson(dict: APIMemer) {
+        const doc: MemerDocument = {
+            _id: new ObjectId(dict.id),
+            username: dict.username,
+            password: dict.password,
+            displayName: dict.displayName,
+            discordUserId: dict.discordUserId,
+            profilePic: dict.profilePic,
+            createdAt: dict.createdAt,
+            updatedAt: dict.updatedAt
+        }
+
+        return new Memer(doc)
     }
 
     public _id: ObjectId
@@ -37,9 +59,9 @@ export class Memer implements MemerDocument {
         this.updatedAt = meme.updatedAt ?? this.createdAt
     }
 
-    public toJson() {
+    public toJson(): APIMemer {
         return {
-            _id: this._id.toHexString(),
+            id: this._id.toHexString(),
             username: this.username,
             password: this.password,
             displayName: this.displayName,

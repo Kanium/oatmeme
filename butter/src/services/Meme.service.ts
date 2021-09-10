@@ -3,6 +3,14 @@ import { Meme, MemeQuery } from '../models/Meme.model'
 import MongoConnector from '../utils/MongoConnector'
 
 export class MemeService {
+    private static _instance: MemeService
+    public static get instance() {
+        if (!this._instance) {
+            this._instance = new MemeService()
+        }
+        return this._instance
+    }
+
     private _db: Collection<Meme>
 
     constructor() {

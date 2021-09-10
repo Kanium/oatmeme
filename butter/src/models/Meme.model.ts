@@ -1,4 +1,3 @@
-import { Dictionary } from 'lodash'
 import { Document, ObjectId } from 'mongodb'
 import Validate from '../utils/Validate'
 

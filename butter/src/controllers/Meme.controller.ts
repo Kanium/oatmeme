@@ -7,6 +7,6 @@ export class MemeController {
 
     constructor() {
         this._logger = new Logger('MemeController')
-        this._service = new MemeService()
+        this._service = MemeService.instance
     }
 }

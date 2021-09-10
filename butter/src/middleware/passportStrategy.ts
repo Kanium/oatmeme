@@ -1,7 +1,6 @@
 import passport from 'passport'
 import { Strategy, ExtractJwt } from 'passport-jwt'
-import { Memer } from '../models/Memer.model'
-import MongoConnector from '../utils/MongoConnector'
+import { MemerService } from '../services/Memer.service'
 
 const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -12,9 +11,7 @@ const opts = {
 passport.use(
     new Strategy(opts, async (payload, done) => {
         try {
-            const user = await MongoConnector.instance
-                .collection<Memer>('memer')
-                .findOne({ username: payload.username })
+            const user = await MemerService.instance.getByUsername(payload.username)
             if (!user) {
                 return done(null, false, { message: 'could not find the user' })
             }
