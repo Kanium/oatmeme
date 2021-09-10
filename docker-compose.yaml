@@ -1,0 +1,11 @@
+version: "3.5"
+
+services:
+    butter:
+        container_name: butter
+        build:
+            context: ./butter
+            dockerfile: ./Dockerfile
+        ports:
+            - "8080:8080"
+        env_file: './butter/production.env'
