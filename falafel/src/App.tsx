@@ -1,26 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { Helmet } from 'react-helmet'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import ViteMainPage from './pages/ViteMainPage'
+import Explore from './pages/Explorer'
+
+const App: React.FC = () => {
+    return (
+        <div id="app">
+          <Helmet>
+            <title>OatMeme</title>
+          </Helmet>
+            <Router>
+                <Route path="/" exact component={ViteMainPage} />
+                <Route path="/explore" exact component={Explore} />
+            </Router>
+        </div>
+    )
 }
 
-export default App;
+export default App
