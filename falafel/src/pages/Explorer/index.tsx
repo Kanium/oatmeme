@@ -1,15 +1,23 @@
 import React from 'react'
+import { Container } from 'react-bootstrap'
 import { Helmet } from 'react-helmet'
+import Header from '../../components/Header'
 
 interface ExploreProps {}
 
-const Explore: React.FC = (props: ExploreProps) => {
+// eslint-disable-next-line no-empty-pattern
+const Explore: React.FC<ExploreProps> = ({}: ExploreProps) => {
     return (
         <div>
             <Helmet>
                 <title>OatMeme - Explore</title>
             </Helmet>
-            <div>Explore</div>
+            <div>
+                <Header name={'test'} />
+                <Container>
+                    { /* data goes here */ }
+                </Container>
+            </div>
         </div>
     )
 }

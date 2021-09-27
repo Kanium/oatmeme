@@ -33,7 +33,7 @@ const useTimeout = (callback: () => Promise<any>, delay: number) => {
         set()
     }, [clear, set])
 
-    return { reset, clear }
+    return { reset, set, clear }
 }
 
 export default useTimeout
