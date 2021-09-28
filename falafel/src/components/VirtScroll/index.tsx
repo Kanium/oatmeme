@@ -1,17 +1,23 @@
 import React from 'react'
+import ListScroll from './List'
 // import styles from './styles.module.css'
+import MasonScroll from './Mason'
 
-export interface VirtScroll {
-    
+export interface VirtScrollProps {
+    mason: boolean
 }
 
 // eslint-disable-next-line no-empty-pattern
-const virtScroll = ({}: VirtScroll) => {
-    return (
-        <div>
-            
-        </div>
-    )
+const VirtScroll = ({ mason }: VirtScrollProps) => {
+    if (mason) {
+        return <MasonScroll />
+    } else {
+        return <ListScroll />
+    }
 }
 
-export default virtScroll
+VirtScroll.defaultProps = { //TODO do this the right way
+    mason: false
+}
+
+export default VirtScroll

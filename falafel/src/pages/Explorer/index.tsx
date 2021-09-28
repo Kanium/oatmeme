@@ -2,6 +2,7 @@ import React from 'react'
 import { Container } from 'react-bootstrap'
 import { Helmet } from 'react-helmet'
 import Header from '../../components/Header'
+import VirtScroll from '../../components/VirtScroll/index';
 
 interface ExploreProps {}
 
@@ -16,6 +17,7 @@ const Explore: React.FC<ExploreProps> = ({}: ExploreProps) => {
                 <Header name={'test'} />
                 <Container>
                     { /* data goes here */ }
+                    <VirtScroll mason={false}/>
                 </Container>
             </div>
         </div>
