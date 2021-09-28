@@ -7,7 +7,7 @@ interface MemeCardProps {
     style?: any
 }
 
-export const MemeCard = ({ meme, style }: MemeCardProps) => {
+const MemeCard = ({ meme, style }: MemeCardProps) => {
     return (
         <Card style={style}>
             <Card.Header>{meme.name}</Card.Header>
@@ -18,3 +18,5 @@ export const MemeCard = ({ meme, style }: MemeCardProps) => {
         </Card>
     )
 }
+
+export default MemeCard

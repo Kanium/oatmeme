@@ -25,6 +25,9 @@
     "react-router-dom": "^5.3.0",
     "react-virtualized": "^9.22.3"
   },
+  "resolutions": {
+    "react-virtualized": "git+https://git@github.com/remorses/react-virtualized-fixed-import.git#9.22.3"
+  },
   "devDependencies": {
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",

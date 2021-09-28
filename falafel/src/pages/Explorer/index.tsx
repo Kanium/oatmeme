@@ -2,12 +2,34 @@ import React from 'react'
 import { Container } from 'react-bootstrap'
 import { Helmet } from 'react-helmet'
 import Header from '../../components/Header'
-import VirtScroll from '../../components/VirtScroll/index';
+import VirtualScroll from '../../components/VirtualScroll'
+import Meme from '../../models/meme.model'
+import useAsync from '../../utils/customHooks/useAsync'
 
-interface ExploreProps {}
+const Explore: React.FC = () => {
+    const generator = (t: number) => {
+        const memes: Meme[] = []
+        for (let i = 0; i < t; i++) {
+            memes.push({
+                id: 'id#' + i,
+                name: 'test' + t,
+                data: 'https://imgur.com/t/funny/tgu9QMB',
+                updoots: 0,
+                downdoots: 9001,
+                creatorId: 'someshithead' + i,
+                createdAt: new Date(),
+                updatedAt: new Date()
+            })
+        }
+        return memes
+    }
 
-// eslint-disable-next-line no-empty-pattern
-const Explore: React.FC<ExploreProps> = ({}: ExploreProps) => {
+    const { loading, error, value } = useAsync<Meme[]>(async (): Promise<Meme[]> => {
+        const dumy: Meme[] = generator(1000)
+        await new Promise((f) => setTimeout(f, 5000))
+        return dumy // TODO axios to api
+    })
+
     return (
         <div>
             <Helmet>
@@ -16,8 +38,17 @@ const Explore: React.FC<ExploreProps> = ({}: ExploreProps) => {
             <div>
                 <Header name={'test'} />
                 <Container>
-                    { /* data goes here */ }
-                    <VirtScroll mason={false}/>
+                    {error ? (
+                        <div className="alert alert-danger" role="alert">
+                            Bad stuff is happening oh no
+                        </div>
+                    ) : null}
+                    {value ? <VirtualScroll mason={false} items={value!} /> : null}
+                    {loading ? (
+                        <div className="spinner-border text-secondary" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </div>
+                    ) : null}
                 </Container>
             </div>
         </div>

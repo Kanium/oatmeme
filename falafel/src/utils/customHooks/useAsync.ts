@@ -5,12 +5,12 @@ import { useCallback, useEffect, useState } from 'react'
  * 
  * @param callback callback function to perform after the async call
  * @param dependencies any dependencies that the async will wait for
- * @returns 
+ * @returns
  */
-const useAsync = (callback: () => Promise<any>, dependencies: any[] = []) => {
+const useAsync = <T>(callback: () => Promise<any>, dependencies: any[] = []) => {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState()
-    const [value, setValue] = useState()
+    const [value, setValue] = useState<T>()
 
     const callbackMemoized = useCallback(() => {
         setLoading(true)
