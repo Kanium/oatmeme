@@ -1,7 +1,8 @@
-import React from 'react'
-import { List as VirtualList } from 'react-virtualized'
+import React, { useRef } from 'react'
+import { AutoSizer, CellMeasurer, CellMeasurerCache, List as VirtualList } from 'react-virtualized'
 import Meme from '../../../models/meme.model'
-import ListItem from './ListItem'
+import MemeCard from '../../Card'
+// import ListItem from './ListItem'
 
 export interface ListProps {
     arr: Meme[]
@@ -14,11 +15,51 @@ export interface ListProps {
 //     style: any // Style object to be applied to row (to position it)
 
 const List: React.FC<ListProps> = ({ arr }: ListProps) => {
-    const generateRow = ({ key, style, index, isScrolling, isVisible }: any) => {
-        return <ListItem key={key} style={style} isScrolling={isScrolling} isVisible={isVisible} item={arr[index]} />
-    }
+    const cache = useRef<CellMeasurerCache>(
+        new CellMeasurerCache({
+            fixedWidth: true,
+            defaultHeight: 500,
+            defaultWidth: 500
+        })
+    )
 
-    return <VirtualList width={250} height={250} rowCount={arr.length} rowHeight={250} rowRenderer={generateRow} />
+    // const generateRow = ({ key, style, index, isScrolling, isVisible }: any) => {
+    //     return <ListItem key={key} style={style} isScrolling={isScrolling} isVisible={isVisible} item={arr[index]} />
+    // }
+
+    return (
+        <AutoSizer>
+            {({ width, height }) => {
+                return (
+                    <VirtualList
+                        deferredMeasurementCache={cache.current}
+                        width={width}
+                        height={height}
+                        rowCount={arr.length}
+                        rowHeight={cache.current.rowHeight}
+                        rowRenderer={({ key, style, index, isScrolling, isVisible, parent }) => {
+                            //Like this or not we need to let cell measure wrap this and access same cache as this propertiy
+                            const item = arr[index]
+                            const container = isScrolling ? '... scrolling' : <MemeCard meme={item} />
+
+                            return (
+                                <CellMeasurer
+                                    key={key}
+                                    cache={cache.current}
+                                    parent={parent}
+                                    columnIndex={0}
+                                    rowIndex={index}>
+                                    <div style={{ display: isVisible ? 'initial' : 'hidden', ...style }}>
+                                        {container}
+                                    </div>
+                                </CellMeasurer>
+                            )
+                        }}
+                    />
+                )
+            }}
+        </AutoSizer>
+    )
 }
 
 export default List

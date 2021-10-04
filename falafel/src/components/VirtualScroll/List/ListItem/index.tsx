@@ -14,7 +14,7 @@ const ListItem: React.FC<ListItemProps> = ({ key, style, isScrolling, isVisible,
     const container = isScrolling ? '... scrolling' : <MemeCard meme={item} />
 
     return (
-        <div key={key} style={{ display: isVisible ? 'initial' : 'hidden', ...style }}>
+        <div  key={key} style={{ display: isVisible ? 'initial' : 'hidden', ...style }}>
             {container}
         </div>
     )

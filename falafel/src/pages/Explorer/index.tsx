@@ -12,8 +12,8 @@ const Explore: React.FC = () => {
         for (let i = 0; i < t; i++) {
             memes.push({
                 id: 'id#' + i,
-                name: 'test' + t,
-                data: 'https://imgur.com/t/funny/tgu9QMB',
+                name: 'test' + i,
+                data: 'https://i.imgur.com/tgu9QMB.png',
                 updoots: 0,
                 downdoots: 9001,
                 creatorId: 'someshithead' + i,
@@ -26,7 +26,7 @@ const Explore: React.FC = () => {
 
     const { loading, error, value } = useAsync<Meme[]>(async (): Promise<Meme[]> => {
         const dumy: Meme[] = generator(1000)
-        await new Promise((f) => setTimeout(f, 5000))
+        await new Promise((f) => setTimeout(f, 1000))
         return dumy // TODO axios to api
     })
 
@@ -37,13 +37,13 @@ const Explore: React.FC = () => {
             </Helmet>
             <div>
                 <Header name={'test'} />
-                <Container>
+                <Container className="d-flex justify-content-center"> 
                     {error ? (
                         <div className="alert alert-danger" role="alert">
                             Bad stuff is happening oh no
                         </div>
                     ) : null}
-                    {value ? <VirtualScroll mason={false} items={value!} /> : null}
+                    {value ? <VirtualScroll mason={false} items={value} /> : null}
                     {loading ? (
                         <div className="spinner-border text-secondary" role="status">
                             <span className="sr-only">Loading...</span>
