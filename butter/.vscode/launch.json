@@ -1,0 +1,53 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "debug local",
+            "restart": true,
+            "protocol": "inspector",
+            "args": [
+                "--nolazy",
+                "-r",
+                "ts-node/register",
+                "src/app.ts"
+            ],
+            "env": {},
+            "cwd": "${workspaceRoot}",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Tests [TS]",
+            "protocol": "inspector",
+            "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "--nolazy",
+                "-r",
+                "ts-node/register",
+                "-r",
+                "--no-timeouts",
+                "--colors",
+                "--exit",
+                "-b",
+                "--bail",
+                "--inline-diffs",
+                "--recursive",
+                "test/**/*spec.ts",
+                "test/**/**/*spec.ts"
+            ],
+            "env": {
+                "TS_NODE_FILES": "true",
+                "NODE_ENV": "local",
+                "LOGGER": "noop",
+            },
+            "cwd": "${workspaceRoot}",
+            "console": "integratedTerminal"
+        }
+    ]
+}

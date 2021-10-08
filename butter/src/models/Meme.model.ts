@@ -30,6 +30,7 @@ export interface MemeQuery {
         downdoots?: number
         createdAt?: Date
         createFrom?: Date
+        creatorId?: string | ObjectId
     }
     sort?: {
         order: 'ASC' | 'DES'

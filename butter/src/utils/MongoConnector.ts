@@ -15,6 +15,10 @@ export default class MongoConnector {
     private _promise: Promise<void> | null
     private _timeOut: NodeJS.Timer
 
+    public get db () {
+        return this._db
+    }
+
     public collection<T extends Document>(collectionName: string) {
         return this._db?.collection<T>(collectionName) as Collection<T>
     }
@@ -49,5 +53,9 @@ export default class MongoConnector {
         if (this._promise) {
             await this._promise
         }
+    }
+
+    public async close() {
+        await this._client?.close()
     }
 }

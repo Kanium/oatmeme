@@ -2,8 +2,11 @@ import express, { Application, Request, Response, NextFunction } from 'express'
 import logger from 'morgan'
 import winston from 'winston'
 import { ResponseError } from './models/ResponseError.model'
+import * as swaggerUi from 'swagger-ui-express'
+import * as YAML from "yamljs"
+import path from 'path'
 
-import api from './router/api'
+import apiRouter from './router'
 
 // Boot express
 const app: Application = express()
@@ -44,6 +47,14 @@ app.use(
     })
 )
 
+// setup swagger
+const swaggerPath = path.join(__dirname, 'public', 'swagger.yaml')
+const swaggerJsonPath = path.join(__dirname, 'public', 'swagger.json')
+const swaggerDocument = YAML.load(swaggerPath)
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+app.use('/swagger.json', express.static(swaggerJsonPath))
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: ResponseError, req: Request, res: Response, next: NextFunction) => {
     console.log(err)
@@ -54,5 +65,7 @@ app.use((err: ResponseError, req: Request, res: Response, next: NextFunction) =>
 app.get('/', (req: Request, res: Response) => {
     res.status(200).send('Welcome To Butter, Oatmemes Backend Service')
 })
+
+app.use('/api', apiRouter)
 
 export default app
