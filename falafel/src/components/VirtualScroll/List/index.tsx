@@ -40,7 +40,8 @@ const List: React.FC<ListProps> = ({ arr }: ListProps) => {
                         rowRenderer={({ key, style, index, isScrolling, isVisible, parent }) => {
                             //Like this or not we need to let cell measure wrap this and access same cache as this propertiy
                             const item = arr[index]
-                            const container = isScrolling ? '... scrolling' : <MemeCard meme={item} />
+                            const container = isScrolling ? '... scrolling' : <MemeCard meme={item} /> // Add skeleton of memecard for scrolling
+                            // https://www.youtube.com/watch?v=ZVug65gW-fc
 
                             return (
                                 <CellMeasurer
@@ -63,3 +64,23 @@ const List: React.FC<ListProps> = ({ arr }: ListProps) => {
 }
 
 export default List
+
+
+{/* <InfiniteLoader isRowLoaded={() => true} loadMoreRows={loadMore} rowCount={data.length}>
+{({ onRowsRendered, registerChild }) => (
+    <AutoSizer disableHeight>
+        {({ width }) => (
+            <List
+                ref={registerChild}
+                className={styles.List}
+                height={200}
+                onRowsRendered={onRowsRendered}
+                rowCount={data.length}
+                rowHeight={30}
+                rowRenderer={render}
+                width={width}
+            />
+        )}
+    </AutoSizer>
+)}
+</InfiniteLoader> */}
