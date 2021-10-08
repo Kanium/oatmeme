@@ -1,0 +1,8 @@
+{
+    "swagger": {
+        "outputDirectory": "./public",
+        "entryFile": "./src/app.ts",
+        "basePath": "/api/",
+        "ignore": []
+    }
+}

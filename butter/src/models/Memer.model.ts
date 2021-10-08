@@ -4,7 +4,6 @@ import Validate from '../utils/Validate'
 export interface APIMemer {
     id: string
     username: string
-    password: string
     displayName?: string
     discordUserId?: string
     profilePic?: string
@@ -24,7 +23,7 @@ export interface MemerDocument extends Document {
 }
 
 export class Memer implements MemerDocument {
-    public static fromJson(dict: APIMemer) {
+    public static fromJson(dict: APIMemer & { password: string }) {
         const doc: MemerDocument = {
             _id: new ObjectId(dict.id),
             username: dict.username,
@@ -63,7 +62,6 @@ export class Memer implements MemerDocument {
         return {
             id: this._id.toHexString(),
             username: this.username,
-            password: this.password,
             displayName: this.displayName,
             discordUserId: this.discordUserId,
             profilePic: this.profilePic,

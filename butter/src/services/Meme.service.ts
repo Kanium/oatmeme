@@ -1,5 +1,6 @@
-import { Collection, ObjectId } from 'mongodb'
-import { Meme, MemeQuery } from '../models/Meme.model'
+import { ObjectId } from 'mongodb'
+import { APIMeme, Meme, MemeQuery } from '../models/Meme.model'
+import { ResponseError } from '../models/ResponseError.model'
 import MongoConnector from '../utils/MongoConnector'
 
 export class MemeService {
@@ -11,41 +12,52 @@ export class MemeService {
         return this._instance
     }
 
-    private _db: Collection<Meme>
-
-    constructor() {
-        this._db = MongoConnector.instance.collection<Meme>('meme')
+    public static instanceWithConnection(connector?: MongoConnector) {
+        MemeService._instance = new MemeService(connector)
+        return MemeService._instance
     }
+
+    public get collection () {
+        return this._mongo.collection<Meme>('meme')
+    }
+
+    constructor(private _mongo: MongoConnector = MongoConnector.instance) {}
 
     public async get(id: string | ObjectId) {
         const oId = new ObjectId(id)
-        const obj = await this._db.findOne({ _id: oId })
+        const obj = await this.collection.findOne({ _id: oId })
         return obj
     }
 
     public async list() {
-        const cursor = await this._db.find({})
+        const cursor = await this.collection.find({})
         const array = await cursor.toArray()
         return array
     }
 
     public async create(meme: Meme) {
-        await this._db.insertOne(meme)
+        await this.collection.insertOne(meme)
     }
 
-    public async update(id: string | ObjectId, updateObj: Partial<Meme>) {
+    public async update(id: string | ObjectId, updateObj: Partial<APIMeme>) {
         const oId = new ObjectId(id)
 
-        delete updateObj._id
         delete updateObj.createdAt
+        delete updateObj.creatorId
+        delete updateObj.id
         updateObj.updatedAt = new Date()
 
-        await this._db.findOneAndUpdate({ _id: oId }, updateObj)
+        const updated = await this.collection.findOneAndUpdate({ _id: oId }, updateObj)
+        if (!updated.ok || !updated.value) {
+            throw new ResponseError('Error occured while updating', 500)
+        }
+
+        return new Meme(updated.value)
     }
 
-    public async remove(id: string | ObjectId) {
+    public async delete(id: string | ObjectId) {
         const oId = new ObjectId(id)
-        await this._db.findOneAndDelete({ _id: oId })
+        await this.collection.findOneAndDelete({ _id: oId })
     }
 
     public async query(queryObj: MemeQuery) {
@@ -67,7 +79,11 @@ export class MemeService {
             mongoQuery.$and.push({ downdoots: { $lte: queryObj.query.downdoots } })
         }
 
-        const cursor = await this._db.find(mongoQuery.$and.length ? mongoQuery : {})
+        if (queryObj.query.creatorId) {
+            mongoQuery.$and.push({ creatorId: queryObj.query.creatorId })
+        }
+
+        const cursor = await this.collection.find(mongoQuery.$and.length ? mongoQuery : {})
         return cursor
     }
 }
