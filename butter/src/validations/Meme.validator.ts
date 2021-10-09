@@ -17,6 +17,7 @@ export class MemeValidator {
             const oId = new ObjectId(req.params.id)
             if (r?._id === oId) {
                 next()
+                return
             }
         }
 

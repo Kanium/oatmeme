@@ -11,6 +11,20 @@ export interface APIMeme {
     createdAt: Date
     updatedAt: Date
 }
+export interface PatchMemeRequest {
+    name?: string
+    data?: string
+    updoots?: number
+    downdoots?: number
+}
+
+export interface CreateMemeRequest {
+    name: string
+    data: string
+    updoots?: number
+    downdoots?: number
+    creatorId: string | ObjectId
+}
 
 export interface MemeDocument extends Document {
     _id: ObjectId
