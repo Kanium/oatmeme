@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
-import { Meme, MemeQuery } from '../models/Meme.model'
-import { CreateMemerRequest, PatchMemerRequest } from '../models/Memer.model'
+import { CreateMemeRequest, Meme, MemeQuery, PatchMemeRequest } from '../models/Meme.model'
 import { ResponseError } from '../models/ResponseError.model'
+import { deleteEmpty } from '../utils'
 import MongoConnector from '../utils/MongoConnector'
 
 export class MemeService {
@@ -18,7 +18,7 @@ export class MemeService {
         return MemeService._instance
     }
 
-    public get collection () {
+    public get collection() {
         return this._mongo.collection<Meme>('meme')
     }
 
@@ -36,16 +36,17 @@ export class MemeService {
         return array
     }
 
-    public async create(meme: CreateMemerRequest) {
-        const newMeme = new Meme(meme as Partial<Meme>)
+    public async create(meme: CreateMemeRequest) {
+        const newMeme = new Meme(meme)
         await this.collection.insertOne(newMeme)
         return newMeme
     }
 
-    public async update(id: string | ObjectId, updateObj: PatchMemerRequest) {
+    public async update(id: string | ObjectId, updateObj: PatchMemeRequest) {
         const oId = new ObjectId(id)
 
-        const update = Object.assign({}, updateObj, { updatedAt: new Date() })
+        let update: { [key: string]: any } = Object.assign({}, updateObj, { updatedAt: new Date() })
+        update = deleteEmpty(update)
 
         const updated = await this.collection.findOneAndUpdate({ _id: oId }, update)
         if (!updated.ok || !updated.value) {

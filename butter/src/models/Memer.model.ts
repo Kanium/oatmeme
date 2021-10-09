@@ -11,10 +11,6 @@ export interface APIMemer {
     updatedAt: Date
 }
 
-export interface AuthMemer extends APIMemer {
-    password: string
-}
-
 export interface PatchMemerRequest {
     username?: string
     displayName?: string

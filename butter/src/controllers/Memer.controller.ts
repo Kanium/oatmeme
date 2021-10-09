@@ -1,23 +1,22 @@
-import { MemeService } from '../services/Meme.service'
 import { Logger } from '../utils/Logger'
 import { Accept, DELETE, GET, PATCH, Path, POST } from 'typescript-rest'
 import { Tags } from 'typescript-rest-swagger'
 import { BaseController } from './BaseController'
 import { Request, Response } from 'express'
 import { AuthService } from '../services/Auth.service'
-import { APIMemer } from '../models/Memer.model'
+import { APIMemer, CreateMemerRequest, PatchMemerRequest } from '../models/Memer.model'
 import { ResponseError } from '../models/ResponseError.model'
-import { CreateMemeRequest, PatchMemeRequest } from '../models/Meme.model'
+import { MemerService } from '../services/Memer.service'
 
-@Tags('memes')
+@Tags('memers')
 @Accept('text/plain')
-@Path('/memes')
-export class MemeController extends BaseController {
+@Path('/memers')
+export class MemerController extends BaseController {
     private _logger: Logger
 
     constructor() {
         super()
-        this._logger = new Logger('MemeController')
+        this._logger = new Logger('MemerController')
     }
 
     protected resolve(req: Request, res: Response, func: (req: Request) => any, log?: (obj: any) => void) {
@@ -37,37 +36,37 @@ export class MemeController extends BaseController {
 
     @GET
     @Path(':id')
-    private async _get(memeId: string) {
-        const meme = await MemeService.instance.get(memeId)
-        if (!meme) {
-            throw new ResponseError('Meme doesnt exist', 204)
+    private async _get(memerId: string) {
+        const memer = await MemerService.instance.get(memerId)
+        if (!memer) {
+            throw new ResponseError('Memer doesnt exist', 204)
         }
-        return meme?.toJson()
+        return memer?.toJson()
     }
 
     @GET
     private async _list() {
-        const memes = await MemeService.instance.list()
-        return memes.map((m) => m.toJson())
+        const memers = await MemerService.instance.list()
+        return memers.map((m) => m.toJson())
     }
 
     @POST
-    private async _create(meme: CreateMemeRequest) {
-        const newMeme = await MemeService.instance.create(meme)
-        return newMeme.toJson()
+    private async _create(memer: CreateMemerRequest) {
+        const newMemer = await MemerService.instance.create(memer)
+        return newMemer.toJson()
     }
 
     @PATCH
     @Path(':id')
-    private async _update(memeId: string, meme: PatchMemeRequest) {
-        const updated = await MemeService.instance.update(memeId, meme)
+    private async _update(memerId: string, memer: PatchMemerRequest) {
+        const updated = await MemerService.instance.update(memerId, memer)
         return updated.toJson()
     }
 
     @DELETE
     @Path(':id')
-    private async _delete(memeId: string) {
-        await MemeService.instance.delete(memeId)
+    private async _delete(memerId: string) {
+        await MemerService.instance.delete(memerId)
     }
 
     public get(req: Request, res: Response) {
