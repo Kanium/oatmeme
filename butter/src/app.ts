@@ -48,8 +48,8 @@ app.use(
 )
 
 // setup swagger
-const swaggerPath = path.join(__dirname, 'public', 'swagger.yaml')
-const swaggerJsonPath = path.join(__dirname, 'public', 'swagger.json')
+const swaggerPath = path.join(__dirname, '../public', 'swagger.yaml')
+const swaggerJsonPath = path.join(__dirname, '../public', 'swagger.json')
 const swaggerDocument = YAML.load(swaggerPath)
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
