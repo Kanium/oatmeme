@@ -6,7 +6,7 @@ import { Request, Response } from 'express'
 import { ResponseError } from '../models/ResponseError.model'
 import { BaseController } from './BaseController'
 import { compare } from 'bcrypt'
-import { APIMemer, Memer } from '../models/Memer.model'
+import { AuthMemer, Memer } from '../models/Memer.model'
 import { AuthService } from '../services/Auth.service'
 
 @Tags('Auth')
@@ -38,7 +38,7 @@ export class AuthController extends BaseController {
 
     @POST
     @Path('/register')
-    private async _register(body: APIMemer & { password: string }) {
+    private async _register(body: AuthMemer) {
         body.password = await AuthService.instance.generateSaltedPassword(body.password)
         const memer = Memer.fromJson(body)
         await MemerService.instance.create(memer)

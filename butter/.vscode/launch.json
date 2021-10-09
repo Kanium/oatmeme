@@ -7,18 +7,18 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "debug local",
+            "name": "TS DEBUG",
             "restart": true,
             "protocol": "inspector",
-            "args": [
-                "--nolazy",
-                "-r",
-                "ts-node/register",
-                "src/app.ts"
-            ],
-            "env": {},
+            "runtimeExecutable": "node",
+            "runtimeArgs": ["--nolazy", "-r", "ts-node/register/transpile-only"],
+            "args": ["src/index.ts"],
+            "env": {
+                "NODE_ENV": "development"
+            },
             "cwd": "${workspaceRoot}",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "skipFiles": ["<node_internals>/**", "node_modules/**"]
         },
         {
             "type": "node",
@@ -30,7 +30,6 @@
                 "--nolazy",
                 "-r",
                 "ts-node/register",
-                "-r",
                 "--no-timeouts",
                 "--colors",
                 "--exit",

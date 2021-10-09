@@ -4,9 +4,8 @@ import { Accept, DELETE, GET, PATCH, Path, PathParam, POST } from 'typescript-re
 import { Tags } from 'typescript-rest-swagger'
 import { BaseController } from './BaseController'
 import { Request, Response } from 'express'
-import { APIMeme, Meme } from '../models/Meme.model'
 import { AuthService } from '../services/Auth.service'
-import { APIMemer } from '../models/Memer.model'
+import { APIMemer, CreateMemerRequest, PatchMemerRequest } from '../models/Memer.model'
 import { ResponseError } from '../models/ResponseError.model'
 
 @Tags('memes')
@@ -52,15 +51,14 @@ export class MemeController extends BaseController {
     }
 
     @POST
-    private async _create(meme: APIMeme) {
-        const newMeme = Meme.fromJson(meme)
-        await MemeService.instance.create(newMeme)
+    private async _create(meme: CreateMemerRequest) {
+        const newMeme = await MemeService.instance.create(meme)
         return newMeme.toJson()
     }
 
     @PATCH
     @Path(':id')
-    private async _update(@PathParam('id') memeId: string, meme: Partial<APIMeme>) {
+    private async _update(@PathParam('id') memeId: string, meme: PatchMemerRequest) {
         const updated = await MemeService.instance.update(memeId, meme)
         return updated.toJson()
     }

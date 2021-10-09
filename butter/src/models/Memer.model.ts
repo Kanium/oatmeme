@@ -11,6 +11,25 @@ export interface APIMemer {
     updatedAt: Date
 }
 
+export interface AuthMemer extends APIMemer {
+    password: string
+}
+
+export interface PatchMemerRequest {
+    username?: string
+    displayName?: string
+    discordUserId?: string
+    profilePic?: string
+}
+
+export interface CreateMemerRequest {
+    username: string
+    password: string
+    displayName?: string
+    discordUserId?: string
+    profilePic?: string
+}
+
 export interface MemerDocument extends Document {
     _id: ObjectId
     username: string
