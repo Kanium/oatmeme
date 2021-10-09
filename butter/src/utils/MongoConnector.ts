@@ -13,7 +13,7 @@ export default class MongoConnector {
     private _client: MongoClient | null
     private _db: Db | null
     private _promise: Promise<void> | null
-    private _timeOut: NodeJS.Timer
+    private _interval: NodeJS.Timer | null
 
     public get db () {
         return this._db
@@ -26,7 +26,7 @@ export default class MongoConnector {
     public async healthCheck() {
         const stats = await this._db?.stats()
         if (!stats || !stats.ok) {
-            throw Error()
+            throw Error('Mongo not connected')
         }
         return stats.ok
     }
@@ -34,19 +34,20 @@ export default class MongoConnector {
     constructor(db?: string) {
         this._client = null
         this._db = null
+        this._interval = null
 
         const uri = `mongodb${process.env.MONGO_PREFIX ?? ''}://${process.env.MONOG_USER}:${
             process.env.MONOG_PASSWORD
         }@${process.env.MONGO_HOST}/${process.env.MOGNO_DB}?retryWrites=true&w=majority`
 
         this._promise = this._connect(uri, db)
-        this._timeOut = setInterval(this.healthCheck, MongoConnector.heartbeatInterval)
     }
 
     private async _connect(uri: string, db?: string) {
         this._client = await MongoClient.connect(uri)
         this._db = this._client.db(db)
         this._promise = null
+        this._interval = setInterval(this.healthCheck, MongoConnector.heartbeatInterval)
     }
 
     public async awaitConnection() {
@@ -56,6 +57,10 @@ export default class MongoConnector {
     }
 
     public async close() {
+        if (this._interval) {
+            clearInterval(this._interval)
+            this._interval = null
+        }
         await this._client?.close()
     }
 }
