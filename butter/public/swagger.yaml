@@ -1,0 +1,227 @@
+basePath: null
+definitions:
+    AuthMemer:
+        description: ""
+        properties:
+            password:
+                type: string
+                description: ""
+            id:
+                type: string
+                description: ""
+            username:
+                type: string
+                description: ""
+            displayName:
+                type: string
+                description: ""
+            discordUserId:
+                type: string
+                description: ""
+            profilePic:
+                type: string
+                description: ""
+            createdAt:
+                type: string
+                format: date-time
+                description: ""
+            updatedAt:
+                type: string
+                format: date-time
+                description: ""
+        type: object
+        required:
+            - password
+            - id
+            - username
+            - createdAt
+            - updatedAt
+    CreateMemerRequest:
+        description: ""
+        properties:
+            username:
+                type: string
+                description: ""
+            password:
+                type: string
+                description: ""
+            displayName:
+                type: string
+                description: ""
+            discordUserId:
+                type: string
+                description: ""
+            profilePic:
+                type: string
+                description: ""
+        type: object
+        required:
+            - username
+            - password
+    PatchMemerRequest:
+        description: ""
+        properties:
+            username:
+                type: string
+                description: ""
+            displayName:
+                type: string
+                description: ""
+            discordUserId:
+                type: string
+                description: ""
+            profilePic:
+                type: string
+                description: ""
+        type: object
+info:
+    description: 'Backend service for the Oatmeme project'
+    license:
+        name: GPL-3.0
+    title: butter
+    version: 0.0.4-dev.0
+paths:
+    /login:
+        post:
+            operationId: Auth_login
+            produces:
+                - text/html
+            responses:
+                '204':
+                    description: 'No content'
+            description: ""
+            tags:
+                - Auth
+            consumes:
+                - application/json
+            parameters:
+                -
+                    description: ""
+                    in: body
+                    name: body
+                    required: true
+                    schema:
+                        type: object
+                        properties:
+                            username:
+                                type: string
+                                description: ""
+                            password:
+                                type: string
+                                description: ""
+    /register:
+        post:
+            operationId: Auth_register
+            produces:
+                - text/html
+            responses:
+                '204':
+                    description: 'No content'
+            description: ""
+            tags:
+                - Auth
+            consumes:
+                - application/json
+            parameters:
+                -
+                    description: ""
+                    in: body
+                    name: body
+                    required: true
+                    schema:
+                        $ref: '#/definitions/AuthMemer'
+    '/memes/{id}':
+        get:
+            operationId: Meme_get
+            produces:
+                - text/html
+            responses:
+                '204':
+                    description: 'No content'
+            description: ""
+            tags:
+                - memes
+            parameters:
+                -
+                    description: ""
+                    in: path
+                    name: id
+                    required: true
+                    type: string
+        patch:
+            operationId: Meme_update
+            produces:
+                - text/html
+            responses:
+                '204':
+                    description: 'No content'
+            description: ""
+            tags:
+                - memes
+            consumes:
+                - application/json
+            parameters:
+                -
+                    description: ""
+                    in: path
+                    name: id
+                    required: true
+                    type: string
+                -
+                    description: ""
+                    in: body
+                    name: meme
+                    required: true
+                    schema:
+                        $ref: '#/definitions/PatchMemerRequest'
+        delete:
+            operationId: Meme_delete
+            produces:
+                - text/html
+            responses:
+                '204':
+                    description: 'No content'
+            description: ""
+            tags:
+                - memes
+            parameters:
+                -
+                    description: ""
+                    in: path
+                    name: id
+                    required: true
+                    type: string
+    /memes:
+        get:
+            operationId: Meme_list
+            produces:
+                - text/html
+            responses:
+                '204':
+                    description: 'No content'
+            description: ""
+            tags:
+                - memes
+            parameters: []
+        post:
+            operationId: Meme_create
+            produces:
+                - text/html
+            responses:
+                '204':
+                    description: 'No content'
+            description: ""
+            tags:
+                - memes
+            consumes:
+                - application/json
+            parameters:
+                -
+                    description: ""
+                    in: body
+                    name: meme
+                    required: true
+                    schema:
+                        $ref: '#/definitions/CreateMemerRequest'
+swagger: '2.0'
+securityDefinitions: {}

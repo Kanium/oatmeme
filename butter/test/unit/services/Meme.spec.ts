@@ -46,13 +46,13 @@ describe(MemeService.name, () => {
                 /* empty */
             })
 
-            it('will have created value which is an instance of meme')
+            it.only('will have created value which is an instance of meme', () => {
+                console.log('in this test')
+            })
 
             it('will have returned value which is an instance of meme')
 
             it('will have the returned model equal the created one')
         })
-
-        describe('when creating multiple memes')
     })
 })

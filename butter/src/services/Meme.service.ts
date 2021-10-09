@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongodb'
-import { APIMeme, Meme, MemeQuery } from '../models/Meme.model'
+import { Meme, MemeQuery } from '../models/Meme.model'
+import { CreateMemerRequest, PatchMemerRequest } from '../models/Memer.model'
 import { ResponseError } from '../models/ResponseError.model'
 import MongoConnector from '../utils/MongoConnector'
 
@@ -35,19 +36,18 @@ export class MemeService {
         return array
     }
 
-    public async create(meme: Meme) {
-        await this.collection.insertOne(meme)
+    public async create(meme: CreateMemerRequest) {
+        const newMeme = new Meme(meme as Partial<Meme>)
+        await this.collection.insertOne(newMeme)
+        return newMeme
     }
 
-    public async update(id: string | ObjectId, updateObj: Partial<APIMeme>) {
+    public async update(id: string | ObjectId, updateObj: PatchMemerRequest) {
         const oId = new ObjectId(id)
 
-        delete updateObj.createdAt
-        delete updateObj.creatorId
-        delete updateObj.id
-        updateObj.updatedAt = new Date()
+        const update = Object.assign({}, updateObj, { updatedAt: new Date() })
 
-        const updated = await this.collection.findOneAndUpdate({ _id: oId }, updateObj)
+        const updated = await this.collection.findOneAndUpdate({ _id: oId }, update)
         if (!updated.ok || !updated.value) {
             throw new ResponseError('Error occured while updating', 500)
         }
