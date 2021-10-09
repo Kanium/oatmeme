@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { MemeService } from '../../../src/services/Meme.service'
-import { Meme } from '../../../src/models/Meme.model'
+import { Meme, PatchMemeRequest } from '../../../src/models/Meme.model'
 import TestContext from '../../../src/utils/TestContext'
 import { CreateMemeRequest } from '../../../src/models/Meme.model'
 import { ObjectId } from 'mongodb'
@@ -87,11 +87,77 @@ describe(MemeService.name, () => {
             })
         })
     })
-    // describe(MemeService.prototype.list.name, () => {
-    //     /*empty*/
-    // })
-    
-    // describe(MemeService.prototype.list.name, () => {
-    //     /*empty*/
-    // })
+
+    describe(MemeService.prototype.update.name, () => {
+        let context: MemeTestContext
+
+        before(async () => {
+            context = new MemeTestContext()
+            await context.setup()
+        })
+
+        after(async () => {
+            await context.cleanup()
+        })
+
+        describe('when updating a created meme', () => {
+            let creatorId: ObjectId
+            let data: string
+            let name: string
+            let updoots: number
+            let downdoots: number
+
+            let test: Meme
+            let item: Meme | null
+
+            let test1: Meme
+            let item1: Meme | null
+
+            before(async () => {
+                creatorId = new ObjectId()
+                data = 'image/data'
+                name = 'test'
+                updoots = 1
+                downdoots = 1
+                const inserted: CreateMemeRequest = {
+                    name,
+                    data,
+                    creatorId,
+                    updoots,
+                    downdoots
+                }
+                test = await MemeService.instance.create(inserted)
+                item = await MemeService.instance.get(test._id)
+                data = 'image/data2'
+                name = 'test2'
+                updoots = 2
+                downdoots = 2
+
+                const update: PatchMemeRequest = {
+                    name,
+                    data,
+                    updoots,
+                    downdoots
+                }
+
+                test1 = await MemeService.instance.update(test._id, update)
+                item1 = await MemeService.instance.get(test1._id)
+            })
+
+            it('will have returned value which is an instance of meme', () => {
+                expect(test1).to.be.an.instanceOf(Meme)
+            })
+            it('will have updated the values of a meme', () => {
+                expect(item1).not.to.be.equal(item)
+            })
+
+            it('will have the updated value equals to the updated value', () => {
+                expect(test1.creatorId).to.be.equal(creatorId)
+                expect(test1.createdAt).to.be.below(new Date())
+                expect(test1.data).to.be.equal(data)
+                expect(test1.downdoots).to.be.equal(downdoots)
+                expect(test1.updoots).to.be.equal(updoots)
+            })
+        })
+    })
 })
