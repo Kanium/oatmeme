@@ -23,7 +23,7 @@ export interface CreateMemeRequest {
     data: string
     updoots?: number
     downdoots?: number
-    creatorId: ObjectId
+    creatorId: string | ObjectId
 }
 
 export interface MemeDocument extends Document {

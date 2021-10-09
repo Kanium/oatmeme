@@ -1,41 +1,5 @@
 basePath: null
 definitions:
-    AuthMemer:
-        description: ""
-        properties:
-            password:
-                type: string
-                description: ""
-            id:
-                type: string
-                description: ""
-            username:
-                type: string
-                description: ""
-            displayName:
-                type: string
-                description: ""
-            discordUserId:
-                type: string
-                description: ""
-            profilePic:
-                type: string
-                description: ""
-            createdAt:
-                type: string
-                format: date-time
-                description: ""
-            updatedAt:
-                type: string
-                format: date-time
-                description: ""
-        type: object
-        required:
-            - password
-            - id
-            - username
-            - createdAt
-            - updatedAt
     CreateMemerRequest:
         description: ""
         properties:
@@ -58,6 +22,49 @@ definitions:
         required:
             - username
             - password
+    CreateMemeRequest:
+        description: ""
+        properties:
+            name:
+                type: string
+                description: ""
+            data:
+                type: string
+                description: ""
+            updoots:
+                type: number
+                format: double
+                description: ""
+            downdoots:
+                type: number
+                format: double
+                description: ""
+            creatorId:
+                type: object
+                description: ""
+        type: object
+        required:
+            - name
+            - data
+            - creatorId
+    PatchMemeRequest:
+        description: ""
+        properties:
+            name:
+                type: string
+                description: ""
+            data:
+                type: string
+                description: ""
+            updoots:
+                type: number
+                format: double
+                description: ""
+            downdoots:
+                type: number
+                format: double
+                description: ""
+        type: object
     PatchMemerRequest:
         description: ""
         properties:
@@ -129,7 +136,7 @@ paths:
                     name: body
                     required: true
                     schema:
-                        $ref: '#/definitions/AuthMemer'
+                        $ref: '#/definitions/CreateMemerRequest'
     '/memes/{id}':
         get:
             operationId: Meme_get
@@ -148,7 +155,7 @@ paths:
                     name: id
                     required: true
                     type: string
-        patch:
+        put:
             operationId: Meme_update
             produces:
                 - text/html
@@ -173,7 +180,7 @@ paths:
                     name: meme
                     required: true
                     schema:
-                        $ref: '#/definitions/PatchMemerRequest'
+                        $ref: '#/definitions/PatchMemeRequest'
         delete:
             operationId: Meme_delete
             produces:
@@ -187,10 +194,11 @@ paths:
             parameters:
                 -
                     description: ""
-                    in: path
-                    name: id
+                    in: body
+                    name: memeId
                     required: true
-                    type: string
+                    schema:
+                        type: string
     /memes:
         get:
             operationId: Meme_list
@@ -220,6 +228,100 @@ paths:
                     description: ""
                     in: body
                     name: meme
+                    required: true
+                    schema:
+                        $ref: '#/definitions/CreateMemeRequest'
+    '/memers/{id}':
+        get:
+            operationId: Memer_get
+            produces:
+                - text/html
+            responses:
+                '204':
+                    description: 'No content'
+            description: ""
+            tags:
+                - memers
+            parameters:
+                -
+                    description: ""
+                    in: path
+                    name: id
+                    required: true
+                    type: string
+        put:
+            operationId: Memer_update
+            produces:
+                - text/html
+            responses:
+                '204':
+                    description: 'No content'
+            description: ""
+            tags:
+                - memers
+            consumes:
+                - application/json
+            parameters:
+                -
+                    description: ""
+                    in: path
+                    name: id
+                    required: true
+                    type: string
+                -
+                    description: ""
+                    in: body
+                    name: memer
+                    required: true
+                    schema:
+                        $ref: '#/definitions/PatchMemerRequest'
+        delete:
+            operationId: Memer_delete
+            produces:
+                - text/html
+            responses:
+                '204':
+                    description: 'No content'
+            description: ""
+            tags:
+                - memers
+            parameters:
+                -
+                    description: ""
+                    in: body
+                    name: memerId
+                    required: true
+                    schema:
+                        type: string
+    /memers:
+        get:
+            operationId: Memer_list
+            produces:
+                - text/html
+            responses:
+                '204':
+                    description: 'No content'
+            description: ""
+            tags:
+                - memers
+            parameters: []
+        post:
+            operationId: Memer_create
+            produces:
+                - text/html
+            responses:
+                '204':
+                    description: 'No content'
+            description: ""
+            tags:
+                - memers
+            consumes:
+                - application/json
+            parameters:
+                -
+                    description: ""
+                    in: body
+                    name: memer
                     required: true
                     schema:
                         $ref: '#/definitions/CreateMemerRequest'

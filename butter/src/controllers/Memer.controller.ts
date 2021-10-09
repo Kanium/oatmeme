@@ -1,5 +1,5 @@
 import { Logger } from '../utils/Logger'
-import { Accept, DELETE, GET, PATCH, Path, POST } from 'typescript-rest'
+import { Accept, DELETE, GET, PUT, Path, POST, PathParam } from 'typescript-rest'
 import { Tags } from 'typescript-rest-swagger'
 import { BaseController } from './BaseController'
 import { Request, Response } from 'express'
@@ -36,7 +36,7 @@ export class MemerController extends BaseController {
 
     @GET
     @Path(':id')
-    private async _get(memerId: string) {
+    private async _get(@PathParam('id') memerId: string) {
         const memer = await MemerService.instance.get(memerId)
         if (!memer) {
             throw new ResponseError('Memer doesnt exist', 204)
@@ -56,9 +56,9 @@ export class MemerController extends BaseController {
         return newMemer.toJson()
     }
 
-    @PATCH
+    @PUT
     @Path(':id')
-    private async _update(memerId: string, memer: PatchMemerRequest) {
+    private async _update(@PathParam('id') memerId: string, memer: PatchMemerRequest) {
         const updated = await MemerService.instance.update(memerId, memer)
         return updated.toJson()
     }

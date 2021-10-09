@@ -1,6 +1,6 @@
 import { MemeService } from '../services/Meme.service'
 import { Logger } from '../utils/Logger'
-import { Accept, DELETE, GET, PATCH, Path, POST } from 'typescript-rest'
+import { Accept, DELETE, GET, PUT, Path, POST, PathParam } from 'typescript-rest'
 import { Tags } from 'typescript-rest-swagger'
 import { BaseController } from './BaseController'
 import { Request, Response } from 'express'
@@ -37,7 +37,7 @@ export class MemeController extends BaseController {
 
     @GET
     @Path(':id')
-    private async _get(memeId: string) {
+    private async _get(@PathParam('id') memeId: string) {
         const meme = await MemeService.instance.get(memeId)
         if (!meme) {
             throw new ResponseError('Meme doesnt exist', 204)
@@ -57,9 +57,9 @@ export class MemeController extends BaseController {
         return newMeme.toJson()
     }
 
-    @PATCH
+    @PUT
     @Path(':id')
-    private async _update(memeId: string, meme: PatchMemeRequest) {
+    private async _update(@PathParam('id') memeId: string, meme: PatchMemeRequest) {
         const updated = await MemeService.instance.update(memeId, meme)
         return updated.toJson()
     }

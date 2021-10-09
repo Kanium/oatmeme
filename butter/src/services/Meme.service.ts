@@ -37,7 +37,7 @@ export class MemeService {
     }
 
     public async create(meme: CreateMemeRequest) {
-        const newMeme = new Meme(meme)
+        const newMeme = new Meme(meme as Partial<Meme>)
         await this.collection.insertOne(newMeme)
         return newMeme
     }
