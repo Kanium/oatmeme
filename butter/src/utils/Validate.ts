@@ -24,7 +24,7 @@ export default class Validate {
         if (value) {
             try {
                 const ob = new ObjectId(value)
-                if (ob === value) {
+                if (ob instanceof ObjectId && ob.equals(value)) {
                     return value
                 }
             } catch (e) {}

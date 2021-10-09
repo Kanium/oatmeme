@@ -27,18 +27,17 @@ export class MemerService {
     public async get(id: string | ObjectId) {
         const oId = new ObjectId(id)
         const obj = await this.collection.findOne({ _id: oId })
-        return obj
+        return obj ? new Memer(obj) : null
     }
 
     public async getByUsername(username: string) {
         const obj = await this.collection.findOne({ username: username })
-        return obj
+        return obj ? new Memer(obj) : null
     }
 
     public async list() {
         const cursor = await this.collection.find({})
-        const array = await cursor.toArray()
-        return array
+        return cursor
     }
 
     public async create(meme: CreateMemerRequest) {

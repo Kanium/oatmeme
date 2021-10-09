@@ -35,10 +35,8 @@ export default class MongoConnector {
         this._client = null
         this._db = null
         this._interval = null
-
-        const uri = `mongodb${process.env.MONGO_PREFIX ?? ''}://${process.env.MONOG_USER}:${
-            process.env.MONOG_PASSWORD
-        }@${process.env.MONGO_HOST}/${process.env.MOGNO_DB}?retryWrites=true&w=majority`
+        const user_pwd = process.env.MONOG_USER ? `${process.env.MONOG_USER}:${process.env.MONOG_PASSWORD}@` : '' //this allows me to localy dev database
+        const uri = `mongodb${process.env.MONGO_PREFIX ?? ''}://${user_pwd}${process.env.MONGO_HOST ?? 'localhost:27017'}/${ db ?? process.env.MOGNO_DB }?retryWrites=true&w=majority`
 
         this._promise = this._connect(uri, db)
     }

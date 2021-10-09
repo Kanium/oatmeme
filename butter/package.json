@@ -10,7 +10,7 @@
     "dev": "NODE_ENV=development nodemon ./src/index.ts",
     "build": "tsc",
     "lint": "eslint --ext .ts --fix .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -r ts-node/register 'test/**/*.ts'"
   },
   "keywords": [],
   "author": {
