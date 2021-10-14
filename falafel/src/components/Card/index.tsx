@@ -5,13 +5,14 @@ import Meme from '../../models/meme.model'
 interface MemeCardProps {
     meme: Meme
     style?: any
+    skeleton?: boolean
 }
 
-const MemeCard = ({ meme, style }: MemeCardProps) => {
+const MemeCard: React.FC<MemeCardProps> = ({ meme, style }: MemeCardProps) => {
     return (
         <Card style={style}>
             <Card.Header>{meme.name}</Card.Header>
-            <Card.Img variant="bottom" src={meme.data} style={{width: '500px', height: '500px'}} />
+            <Card.Img variant="bottom" src={meme.data} style={{ width: '500px', height: '500px' }} />
             <Card.Body>
                 <Card.Title>{meme.creatorId}</Card.Title>
             </Card.Body>
