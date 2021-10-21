@@ -3,9 +3,9 @@ import { CellMeasurer, CellMeasurerCache } from 'react-virtualized'
 import { MeasuredCellParent } from 'react-virtualized/dist/es/CellMeasurer'
 import Meme from '../../../../models/meme.model'
 import MemeCard from '../../../Card'
+import styles from './styles.module.css'
 
 interface ListItemProps {
-    key: string | number
     index: number
     style: CSSProperties
     isScrolling: boolean
@@ -16,9 +16,8 @@ interface ListItemProps {
 }
 
 const ListItem: React.FC<ListItemProps> = ({
-    key,
-    style,
     index,
+    style,
     isScrolling,
     isVisible,
     item,
@@ -29,8 +28,8 @@ const ListItem: React.FC<ListItemProps> = ({
     // https://www.youtube.com/watch?v=ZVug65gW-fc
 
     return (
-        <CellMeasurer key={key} cache={cache} parent={parent} columnIndex={0} rowIndex={index}>
-            <div style={{ display: isVisible ? 'initial' : 'hidden', ...style }}>
+        <CellMeasurer cache={cache} parent={parent} columnIndex={0} rowIndex={index}>
+            <div className={styles.card} style={{ display: isVisible ? 'initial' : 'hidden', ...style }}>
                 <MemeCard meme={item} skeleton={isScrolling} />
             </div>
         </CellMeasurer>

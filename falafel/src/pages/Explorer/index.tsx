@@ -11,14 +11,27 @@ export interface ExploreProps {
 
 }
 
-const Explore: React.FC = (props: ExploreProps) => {
+const Explore: React.FC = () => {
+
+    const genRandomInt = (min: number, max: number) => {
+        min = Math.ceil(min)
+        max = Math.floor(max)
+        return Math.floor(Math.random() * (max - min + 1) + min)
+    }
+    const imagesArr = [
+        'https://i.imgur.com/tgu9QMB.png',
+        'https://i.pinimg.com/originals/0a/4d/cb/0a4dcb92fa2d3c601b58d72720d6bec4.jpg',
+        'https://wallpapercave.com/wp/wp4600617.jpg'
+    ]
+
     const generator = (t: number) => {
         const memes: Meme[] = []
         for (let i = 0; i < t; i++) {
+            const image = imagesArr[genRandomInt(0, imagesArr.length - 1)]
             memes.push({
                 id: 'id#' + i,
                 name: 'test' + i,
-                data: 'https://i.imgur.com/tgu9QMB.png',
+                data: image,
                 updoots: 0,
                 downdoots: 9001,
                 creatorId: 'someshithead' + i,

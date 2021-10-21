@@ -2,6 +2,7 @@ import React, { useRef } from 'react'
 import { AutoSizer, CellMeasurerCache, List as VirtualList } from 'react-virtualized'
 import Meme from '../../../models/meme.model'
 import ListItem from './ListItem'
+import styles from './styles.module.css'
 
 export interface ListProps {
     arr: Meme[]
@@ -21,6 +22,7 @@ const List: React.FC<ListProps> = ({ arr }: ListProps) => {
             {({ width, height }) => {
                 return (
                     <VirtualList
+                        className={styles.list}
                         deferredMeasurementCache={cache.current}
                         width={width}
                         height={height}

@@ -8,14 +8,13 @@ interface HeaderProps {
 
 // eslint-disable-next-line no-empty-pattern
 const Header = ({name}: HeaderProps) => {
-    console.log(name)
     return (
-        <Navbar bg="dark" variant="dark">
+        <Navbar className={styles.navbar} bg="dark" variant="dark">
             <Container>
                 <Navbar.Brand href="/">Oatmeme</Navbar.Brand>
                 <Navbar.Toggle />
                 <Navbar.Collapse className="justify-content-end">
-                    <Navbar.Text className={styles.test}>
+                    <Navbar.Text>
                         <Button variant="outline-light">Light</Button>
                     </Navbar.Text>
                 </Navbar.Collapse>

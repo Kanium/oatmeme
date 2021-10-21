@@ -1,0 +1,7 @@
+.card {
+    align-items: center;
+    width: auto !important;
+    padding: 2vh 15vw;
+    margin: 2vh 0;
+    display: block !important;
+}
