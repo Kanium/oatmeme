@@ -154,6 +154,7 @@ describe(MemeService.name, () => {
             it('will have the updated value equals to the updated value', () => {
                 expect(test1.creatorId).to.be.equal(creatorId)
                 expect(test1.createdAt).to.be.below(new Date())
+                expect(test1.updatedAt).to.be.above(test1.createdAt)
                 expect(test1.data).to.be.equal(data)
                 expect(test1.downdoots).to.be.equal(downdoots)
                 expect(test1.updoots).to.be.equal(updoots)
