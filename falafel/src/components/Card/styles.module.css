@@ -24,6 +24,11 @@
 
 .dootIcon {
     margin-left: 5px;
+    display: inline-block;
+    background-color: inherit;
+    outline: 0 !important;
+    border-color: lightgrey;
+    
 }
 
 .header {
